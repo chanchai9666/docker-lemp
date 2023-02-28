@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+    web-service:
+        build: .
+        ports:
+            - 80:80
+        volumes:
+            - ./www:/var/www/html
+    mariadb_local:
+        image: mariadb
+        ports:
+            - 3306:3306
+        volumes:
+            - ./mariadb:/var/lib/mysql
+            - ./schema:/docker-entrypoint-initdb.d
+#             - ./mariadb/my.cnf:/etc/mysql/conf.d/my.cnf
+            - ./config/my.cnf:/etc/mysql/conf.d/my.cnf
+        environment: 
+            MYSQL_ROOT_PASSWORD: 1234
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: 1234
+            MYSQL_DATABASE: mydatabase
+    pma:
+        image: phpmyadmin/phpmyadmin
+        ports: 
+            - 9090:80
+        links:
+            - mariadb_local:db
+     
