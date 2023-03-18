@@ -1,12 +1,12 @@
 version: '3.7'
 services:
-    web-service:
+    web:
         build: .
         ports:
             - 80:80
         volumes:
             - ./www:/var/www/html
-    mariadb_local:
+    mariadb:
         image: mariadb
         ports:
             - 3306:3306
@@ -20,10 +20,9 @@ services:
             MYSQL_USER: admin
             MYSQL_PASSWORD: 1234
             MYSQL_DATABASE: mydatabase
-    pma:
-        image: phpmyadmin/phpmyadmin
+    phpmyadmin:
+        image: phpmyadmin
         ports: 
             - 9090:80
         links:
-            - mariadb_local:db
-     
+            - mariadb:db
